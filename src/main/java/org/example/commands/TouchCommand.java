@@ -1,4 +1,6 @@
 package org.example.commands;
+import org.example.CLI;
+
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -6,7 +8,6 @@ import java.nio.file.Files;
 import java.io.IOException;
 
 public class TouchCommand implements command {
-    final Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
     @Override
     public void execute(String[] args) {
@@ -14,7 +15,7 @@ public class TouchCommand implements command {
             System.out.println("touch: missing file name");
             return;
         }
-        Path file = currentDirectory.resolve(args[0]);
+        Path file = CLI.currentDirectory.resolve(args[0]);
         try {
             Files.createFile(file);
         } catch (FileAlreadyExistsException e) {
