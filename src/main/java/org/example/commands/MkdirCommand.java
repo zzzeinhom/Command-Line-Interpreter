@@ -1,8 +1,11 @@
 package org.example.commands;
+
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.io.IOException;
+import java.nio.file.InvalidPathException;
 
 public class MkdirCommand implements command {
     @Override
@@ -12,15 +15,31 @@ public class MkdirCommand implements command {
             return;
         }
 
-        Path dirPath = Paths.get(args[0]);
-
         try {
-            Files.createDirectories(dirPath);
-            System.out.println("Directory created: " + dirPath.toAbsolutePath());
-        } catch (IOException e) {
-            System.out.println("Error: Unable to create directory.");
-            e.printStackTrace();
-        }
+            Path dirPath = Paths.get(args[0]).toAbsolutePath().normalize();
 
+            // Check if directory path points to an existing directory
+            if (Files.isDirectory(dirPath)) {
+                System.out.println("Directory already exists: " + dirPath);
+                return;
+            }
+
+            if (Files.exists(dirPath) && !Files.isDirectory(dirPath)) {
+                System.out.println("Error: A file with the same name already exists.");
+                return;
+            }
+
+            Files.createDirectories(dirPath);
+            System.out.println("Directory created: " + dirPath);
+        } catch (InvalidPathException e) {
+            System.out.println("Error: Directory name contains invalid characters.");
+        } catch (FileAlreadyExistsException e) {
+            System.out.println("Error: Directory already exists.");
+        } catch (IOException e) {
+            System.out.println("Error: Unable to create directory due to an I/O error.");
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            System.out.println("Error: Permission denied to create directory.");
+        }
     }
 }
