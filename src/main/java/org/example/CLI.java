@@ -4,7 +4,7 @@ import java.nio.file.*;
 import java.util.*;
 
 public class CLI {
-    private final Path currentDirectory;
+    public static Path currentDirectory;
 
     public CLI() {
         currentDirectory = Paths.get(System.getProperty("user.dir"));
