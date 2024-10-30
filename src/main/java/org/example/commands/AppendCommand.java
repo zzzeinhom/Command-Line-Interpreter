@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public class AppendCommand implements Command {
     @Override
-    public Optional<Object> execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length < 2) {
             System.out.println("Error: No file name or text provided.");
-            return Optional.empty();
+            return;
         }
 
         String fileName = args[0];  // First argument is the filename
@@ -50,6 +50,6 @@ public class AppendCommand implements Command {
             System.out.println("Error: Permission denied to write to the file.");
         }
 
-        return Optional.empty();
+        return;
     }
 }

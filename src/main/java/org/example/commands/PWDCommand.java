@@ -2,13 +2,18 @@ package org.example.commands;
 
 import org.example.CLI;
 
+import java.nio.file.Path;
 import java.util.Optional;
 
 public class PWDCommand implements Command {
+    private Path path = CLI.currentDirectory;
 
     @Override
-    public Optional<Object> execute(String[] args) {
-        String path = CLI.currentDirectory.toString();
-        return Optional.of(path);
+    public void execute(String[] args) {
+        System.out.println(path.toString());
+    }
+
+    public Path getPath() {
+        return path;
     }
 }

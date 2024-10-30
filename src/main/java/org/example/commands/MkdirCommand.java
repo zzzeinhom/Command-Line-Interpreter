@@ -10,10 +10,9 @@ import java.util.Optional;
 
 public class MkdirCommand implements Command {
     @Override
-    public Optional<Object> execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length < 1) {
             System.out.println("Error: No directory name provided.");
-            return Optional.empty();
         }
 
         try {
@@ -22,12 +21,10 @@ public class MkdirCommand implements Command {
             // Check if directory path points to an existing directory
             if (Files.isDirectory(dirPath)) {
                 System.out.println("Directory already exists: " + dirPath);
-                return Optional.empty();
             }
 
             if (Files.exists(dirPath) && !Files.isDirectory(dirPath)) {
                 System.out.println("Error: A file with the same name already exists.");
-                return Optional.empty();
             }
 
             Files.createDirectories(dirPath);
@@ -43,6 +40,5 @@ public class MkdirCommand implements Command {
             System.out.println("Error: Permission denied to create directory.");
         }
 
-        return Optional.empty();
     }
 }

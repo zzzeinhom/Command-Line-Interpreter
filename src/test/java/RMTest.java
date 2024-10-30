@@ -3,9 +3,6 @@ import org.example.commands.CDCommand;
 import org.example.commands.RMCommand;
 import org.example.commands.TouchCommand;
 import org.junit.jupiter.api.Test;
-
-import java.nio.file.Paths;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RMTest {

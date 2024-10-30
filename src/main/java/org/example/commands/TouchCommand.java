@@ -10,10 +10,9 @@ import java.util.Optional;
 public class TouchCommand implements Command {
 
     @Override
-    public Optional<Object> execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length == 0) {
             System.out.println("touch: missing file name");
-            return Optional.empty();
         }
         Path file = CLI.currentDirectory.resolve(args[0]);
         try {
@@ -23,6 +22,5 @@ public class TouchCommand implements Command {
         } catch (IOException e) {
             System.out.println("touch: cannot create file " + args[0]);
         }
-        return Optional.empty();
     }
 }

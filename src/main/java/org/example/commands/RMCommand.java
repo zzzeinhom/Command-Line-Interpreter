@@ -9,10 +9,9 @@ import java.util.Optional;
 public class RMCommand implements Command {
 
     @Override
-    public Optional<Object> execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length == 0) {
             System.out.println("rm: missing file name");
-            return Optional.empty();
         }
         Path file = CLI.currentDirectory.resolve(args[0]);
         try {
@@ -20,6 +19,5 @@ public class RMCommand implements Command {
         } catch (IOException e) {
             System.out.println("rm: failed to delete file " + args[0]);
         }
-        return Optional.empty();
     }
 }

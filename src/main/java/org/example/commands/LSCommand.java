@@ -8,9 +8,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class LSCommand implements Command {
-    List<String> stringFiles = new ArrayList<>();;
+    List<String> ListFiles = new ArrayList<>();
+    public List<String> getList() {
+        return ListFiles;
+    }
 
-    public Optional<Object> execute(String[] args) {
+    public void execute(String[] args) {
         List<Path> files = new ArrayList<>();
         boolean showHidden = false;
         boolean reverseOrder = false;
@@ -38,15 +41,14 @@ public class LSCommand implements Command {
 
 
             for (Path file : files) {
-                stringFiles.add(file.getFileName().toString());
+                System.out.println(file.getFileName().toString());
+                ListFiles.add(file.getFileName().toString());
             }
             System.out.println();
 
-            return Optional.of(stringFiles);
 
         } catch (IOException e) {
             System.out.println("ls: failed to list directory contents");
-            return Optional.empty();
         }
     }
 }
