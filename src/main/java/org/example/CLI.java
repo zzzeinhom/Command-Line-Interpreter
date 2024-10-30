@@ -1,10 +1,12 @@
 package org.example;
+import org.example.StringSplitter;
+
 
 import java.nio.file.*;
 import java.util.*;
 
 public class CLI {
-    public static Path currentDirectory;
+    public static Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
     public CLI() {
         currentDirectory = Paths.get(System.getProperty("user.dir"));
@@ -22,7 +24,7 @@ public class CLI {
         while (true) {
             System.out.print(currentDirectory + "> ");
             String input = scanner.nextLine().trim();
-            String[] parts = input.split("\\s+");
+            String[] parts = StringSplitter.splitString(input);
             String command = parts[0];
             String[] args = parts.length > 1 ? Arrays.copyOfRange(parts, 1, parts.length) : new String[0];
 

@@ -11,11 +11,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class LSCommand implements command {
-    static List<String> files ;
+public class LSCommand {
+    List<String> stringFiles = new ArrayList<>();;
 
-    @Override
-    public void execute(String[] args) {
+    public List<String> execute(String[] args) {
         List<Path> files = new ArrayList<>();
         boolean showHidden = false;
         boolean reverseOrder = false;
@@ -43,13 +42,14 @@ public class LSCommand implements command {
 
 
             for (Path file : files) {
-                System.out.print(file.getFileName() + " ");
-                this.files.add(file.getFileName().toString());
+                stringFiles.add(file.getFileName().toString());
             }
             System.out.println();
+            return stringFiles;
 
         } catch (IOException e) {
             System.out.println("ls: failed to list directory contents");
+            return null;
         }
     }
 }
