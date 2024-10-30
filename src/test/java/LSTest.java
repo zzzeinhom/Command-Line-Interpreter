@@ -19,8 +19,7 @@ public class LSTest {
             }
         }
         try {
-            ls.execute(args);
-            List<String> result = ls.getList();
+            List<String> result = ls.getList(args);
             assertEquals(expected, result, "The ls" + argType
                     + " command did not list the files correctly or in the correct order");
             System.out.println("ls" + argType + " command succeeded");

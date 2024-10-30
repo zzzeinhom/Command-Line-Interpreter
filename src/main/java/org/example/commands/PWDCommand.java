@@ -10,10 +10,14 @@ public class PWDCommand implements Command {
 
     @Override
     public void execute(String[] args) {
+        commandExecution(args);
+    }
+    private void commandExecution(String[] args) {
         System.out.println(path.toString());
     }
 
-    public Path getPath() {
+    public Path getPath(String[] args) {
+        commandExecution(args);
         return path;
     }
 }

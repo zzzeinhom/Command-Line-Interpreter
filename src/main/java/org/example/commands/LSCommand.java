@@ -8,12 +8,24 @@ import java.io.IOException;
 import java.util.*;
 
 public class LSCommand implements Command {
+
     List<String> ListFiles = new ArrayList<>();
-    public List<String> getList() {
+    public List<String> getList(String[] args) {
+        commandExecution(args);
         return ListFiles;
     }
 
+    @Override
     public void execute(String[] args) {
+        commandExecution(args);
+        for (String file : ListFiles) {
+            System.out.print(file + " ");
+        }
+        System.out.println();
+
+    }
+
+    private void commandExecution(String[] args) {
         List<Path> files = new ArrayList<>();
         boolean showHidden = false;
         boolean reverseOrder = false;
@@ -41,10 +53,8 @@ public class LSCommand implements Command {
 
 
             for (Path file : files) {
-                System.out.println(file.getFileName().toString());
                 ListFiles.add(file.getFileName().toString());
             }
-            System.out.println();
 
 
         } catch (IOException e) {
