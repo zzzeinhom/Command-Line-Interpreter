@@ -51,6 +51,9 @@ public class LSTest {
 
     @Test
     public void testLSAllRecursive() {
-        test(new String[]{"-a", "-r"}, List.of(".LSTest4.txt", ".LSTest5.txt", "LSTest.txt", "LSTest2.txt", "LSTest3.txt").reversed());
+        List<String> originalList = List.of(".LSTest4.txt", ".LSTest5.txt", "LSTest.txt", "LSTest2.txt", "LSTest3.txt");
+        List<String> reversed = new ArrayList<>(originalList);
+        Collections.reverse(reversed);
+        test(new String[]{"-a", "-r"}, reversed);
     }
 }

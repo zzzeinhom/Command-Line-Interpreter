@@ -13,7 +13,7 @@ public class PWDTest {
         PWDCommand pwd = new PWDCommand();
         Path currentPath = CLI.currentDirectory;
         try {
-            assertEquals(currentPath, pwd.getPath(null), "The pwd command did not return the correct path");
+            assertEquals(currentPath, pwd.getPath(), "The pwd command did not return the correct path");
             System.out.println("pwd command succeeded");
         } catch (AssertionError e) {
             System.out.println("pwd command failed: " + e.getMessage());

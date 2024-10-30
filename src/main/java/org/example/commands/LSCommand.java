@@ -42,7 +42,6 @@ public class LSCommand implements Command {
             for (Path path : stream) {
                 if (showHidden || !path.getFileName().toString().startsWith(".")) {
                     files.add(path);
-
                 }
             }
 

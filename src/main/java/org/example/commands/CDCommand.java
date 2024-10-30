@@ -8,7 +8,6 @@ public class CDCommand implements Command {
     public void execute(String[] args) {
         try {
             CLI.currentDirectory = Paths.get(args[0]);
-
         }
         catch (Exception e){
             e.printStackTrace();

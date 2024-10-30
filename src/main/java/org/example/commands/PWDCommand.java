@@ -16,8 +16,7 @@ public class PWDCommand implements Command {
         System.out.println(path.toString());
     }
 
-    public Path getPath(String[] args) {
-        commandExecution(args);
+    public Path getPath() {
         return path;
     }
 }
