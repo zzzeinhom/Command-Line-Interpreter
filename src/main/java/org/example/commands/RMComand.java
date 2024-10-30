@@ -1,19 +1,18 @@
 package org.example.commands;
 import org.example.CLI;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.util.Optional;
 
-public class RMComand implements command {
+public class RMComand implements Command {
 
     @Override
-    public void execute(String[] args) {
+    public Optional<Object> execute(String[] args) {
         if (args.length == 0) {
             System.out.println("rm: missing file name");
-            return;
+            return Optional.empty();
         }
         Path file = CLI.currentDirectory.resolve(args[0]);
         try {
@@ -21,5 +20,6 @@ public class RMComand implements command {
         } catch (IOException e) {
             System.out.println("rm: failed to delete file " + args[0]);
         }
+        return Optional.empty();
     }
 }

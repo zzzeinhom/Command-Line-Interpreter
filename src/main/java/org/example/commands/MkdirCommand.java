@@ -6,13 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.InvalidPathException;
+import java.util.Optional;
 
-public class MkdirCommand implements command {
+public class MkdirCommand implements Command {
     @Override
-    public void execute(String[] args) {
+    public Optional<Object> execute(String[] args) {
         if (args.length < 1) {
             System.out.println("Error: No directory name provided.");
-            return;
+            return Optional.empty();
         }
 
         try {
@@ -21,12 +22,12 @@ public class MkdirCommand implements command {
             // Check if directory path points to an existing directory
             if (Files.isDirectory(dirPath)) {
                 System.out.println("Directory already exists: " + dirPath);
-                return;
+                return Optional.empty();
             }
 
             if (Files.exists(dirPath) && !Files.isDirectory(dirPath)) {
                 System.out.println("Error: A file with the same name already exists.");
-                return;
+                return Optional.empty();
             }
 
             Files.createDirectories(dirPath);
@@ -41,5 +42,7 @@ public class MkdirCommand implements command {
         } catch (SecurityException e) {
             System.out.println("Error: Permission denied to create directory.");
         }
+
+        return Optional.empty();
     }
 }

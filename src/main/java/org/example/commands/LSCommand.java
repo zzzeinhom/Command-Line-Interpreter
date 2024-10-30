@@ -3,18 +3,14 @@ import org.example.CLI;
 
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class LSCommand {
+public class LSCommand implements Command {
     List<String> stringFiles = new ArrayList<>();;
 
-    public List<String> execute(String[] args) {
+    public Optional<Object> execute(String[] args) {
         List<Path> files = new ArrayList<>();
         boolean showHidden = false;
         boolean reverseOrder = false;
@@ -45,11 +41,12 @@ public class LSCommand {
                 stringFiles.add(file.getFileName().toString());
             }
             System.out.println();
-            return stringFiles;
+
+            return Optional.of(stringFiles);
 
         } catch (IOException e) {
             System.out.println("ls: failed to list directory contents");
-            return null;
+            return Optional.empty();
         }
     }
 }

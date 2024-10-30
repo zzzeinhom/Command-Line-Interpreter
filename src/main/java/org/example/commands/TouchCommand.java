@@ -3,17 +3,17 @@ import org.example.CLI;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.util.Optional;
 
-public class TouchCommand implements command {
+public class TouchCommand implements Command {
 
     @Override
-    public void execute(String[] args) {
+    public Optional<Object> execute(String[] args) {
         if (args.length == 0) {
             System.out.println("touch: missing file name");
-            return;
+            return Optional.empty();
         }
         Path file = CLI.currentDirectory.resolve(args[0]);
         try {
@@ -23,5 +23,6 @@ public class TouchCommand implements command {
         } catch (IOException e) {
             System.out.println("touch: cannot create file " + args[0]);
         }
+        return Optional.empty();
     }
 }

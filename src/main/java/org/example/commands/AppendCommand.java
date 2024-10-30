@@ -7,13 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
-public class AppendCommand implements command {
+public class AppendCommand implements Command {
     @Override
-    public void execute(String[] args) {
+    public Optional<Object> execute(String[] args) {
         if (args.length < 2) {
             System.out.println("Error: No file name or text provided.");
-            return;
+            return Optional.empty();
         }
 
         String fileName = args[0];  // First argument is the filename
@@ -48,5 +49,7 @@ public class AppendCommand implements command {
         } catch (SecurityException e) {
             System.out.println("Error: Permission denied to write to the file.");
         }
+
+        return Optional.empty();
     }
 }

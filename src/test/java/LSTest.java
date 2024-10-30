@@ -1,10 +1,8 @@
-// LsTest.java
-
-import org.example.CLI;
 import org.example.commands.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,8 +20,8 @@ public class LSTest {
             }
         }
         try {
-            List<String> result = ls.execute(args);
-            assertEquals(expected, result, "The ls" + argType
+            Optional<Object> result = ls.execute(args);
+            assertEquals(Optional.of(expected), result, "The ls" + argType
                     + " command did not list the files correctly or in the correct order");
             System.out.println("ls" + argType + " command succeeded");
         } catch (AssertionError e) {
