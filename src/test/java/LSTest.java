@@ -1,6 +1,8 @@
 import org.example.commands.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +43,10 @@ public class LSTest {
 
     @Test
     public void testLSRecursive() {
-        test(new String[]{"-r"}, List.of("LSTest.txt", "LSTest2.txt", "LSTest3.txt").reversed());
+        List<String> originalList = List.of("LSTest.txt", "LSTest2.txt", "LSTest3.txt");
+        List<String> reversed = new ArrayList<>(originalList);
+        Collections.reverse(reversed);
+        test(new String[]{"-r"}, reversed);
     }
 
     @Test
