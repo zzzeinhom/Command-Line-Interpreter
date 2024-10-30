@@ -1,9 +1,7 @@
 import org.example.commands.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LSTest {
@@ -11,12 +9,12 @@ public class LSTest {
         CDCommand cd = new CDCommand();
         LSCommand ls = new LSCommand();
         cd.execute(new String[]{"LSTest"});
-        String argType = "";
+        StringBuilder argType = new StringBuilder();
         for (String arg : args) {
             if (arg.equals("-a")) {
-                argType += " -a";
+                argType.append(" -a");
             } else if (arg.equals("-r")) {
-                argType += " -r";
+                argType.append(" -r");
             }
         }
         try {
