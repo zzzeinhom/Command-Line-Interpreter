@@ -1,6 +1,7 @@
 package org.example.commands;
 
 import java.nio.file.*;
+import java.util.List;
 
 public class MVCommand extends Command {
     @Override
@@ -17,14 +18,9 @@ public class MVCommand extends Command {
                     Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
                 }
             }
-            else{
-                if (Files.isDirectory(destinationPath))
-                    Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                else throw new Exception("There is no such directory");
-            }
         }
         catch (Exception e){
-            e.printStackTrace();
+            System.out.println("There is not directory or file");
         }
     }
 }

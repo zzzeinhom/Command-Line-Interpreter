@@ -1,4 +1,6 @@
 package org.example.commands;
+import org.example.CLI;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +16,9 @@ public class CATCommand extends Command {
         try {
             for(int i = 0; i < args.length; ++i){
                 Path path = Paths.get(args[i]);
+                if(!path.isAbsolute()){
+                    path = CLI.currentDirectory.resolve(path);
+                }
                 File file = path.toFile();
                 if (Files.isDirectory(path)) {
                     throw new Exception("Not a valid file path");
