@@ -41,7 +41,7 @@ public class RmdirTest {
     // NOTE to Team : this test is to assert that the command only deletes directories so we test it
     // with a file. The point is that the test will always fail which is good because that means it
     // only works on dirs so do we keep it or leave it? Feel free to share your opinion <3.
-    
+
 //    @Test
 //    public void testDeleteFileInsteadOfDirectory() throws IOException
 //    {
