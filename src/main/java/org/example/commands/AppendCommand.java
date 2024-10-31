@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class AppendCommand implements Command {
+public class AppendCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 2) {

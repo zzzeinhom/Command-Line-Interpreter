@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.InvalidPathException;
 import java.util.Optional;
 
-public class MkdirCommand implements Command {
+public class MkdirCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {

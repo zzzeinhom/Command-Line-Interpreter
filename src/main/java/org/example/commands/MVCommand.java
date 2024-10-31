@@ -2,7 +2,7 @@ package org.example.commands;
 
 import java.nio.file.*;
 
-public class MVCommand implements Command {
+public class MVCommand extends Command {
     @Override
     public void execute(String[] args){
         try {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CATCommand implements Command {
+public class CATCommand extends Command {
     List<String> fileContent = new ArrayList<>();
 
     public void setFileContent(String[] args) {

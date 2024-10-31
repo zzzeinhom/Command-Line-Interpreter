@@ -7,7 +7,7 @@ import java.nio.file.*;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
-public class OutputRedirectCommand implements Command {
+public class OutputRedirectCommand extends Command {
 
     @Override
     public void execute(String[] args) {
@@ -89,7 +89,7 @@ public class OutputRedirectCommand implements Command {
             case "cat":
                 return new CATCommand();
             case "cd":
-                return  new CDCommand();
+                return new CDCommand();
             case "ls":
                 return new LSCommand();
             case "mv":

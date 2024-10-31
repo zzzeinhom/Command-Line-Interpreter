@@ -3,7 +3,7 @@ import org.example.CLI;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class CDCommand implements Command {
+public class CDCommand extends Command {
     @Override
     public void execute(String[] args) {
         try {
