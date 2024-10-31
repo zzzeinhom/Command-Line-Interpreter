@@ -10,12 +10,11 @@ import java.util.Scanner;
 
 public class CLI {
 
-    public static Path currentDirectory;
+    public static Path currentDirectory = Paths.get(System.getProperty("user.dir"));
     private Map<String, Command> commands;
 
     public CLI() {
         // Initialize the command map with command objects
-        currentDirectory = Paths.get(System.getProperty("user.dir"));
         commands = new HashMap<>();
         commands.put("pwd", new PWDCommand());
         commands.put("cd", new CDCommand());
@@ -38,6 +37,11 @@ public class CLI {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
 
+            // Parse the input
+            String[] parts = StringSplitter.split(input);
+            String commandName = parts[0];
+            String[] args = new String[parts.length - 1];
+            System.arraycopy(parts, 1, args, 0, args.length);
 
             // Check for exit command
             if (input.equalsIgnoreCase("exit")) {
@@ -51,11 +55,11 @@ public class CLI {
                 continue;
             }
 
-            // Parse the input
-            String[] parts = StringSplitter.split(input);
-            String commandName = parts[0];
-            String[] args = new String[parts.length - 1];
-            System.arraycopy(parts, 1, args, 0, args.length);
+            if (input.contains(">")) {
+                OutputRedirectCommand ORC = new OutputRedirectCommand();
+
+                ORC.execute(parts);
+            }
 
             // Execute the command if it exists
             Command command = commands.get(commandName);
