@@ -3,7 +3,8 @@ package org.example.commands;
 import java.io.IOException;
 import java.nio.file.*;
 
-public class RmdirCommand implements Command {
+public class RmdirCommand implements Command
+{
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
