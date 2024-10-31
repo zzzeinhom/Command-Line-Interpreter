@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.io.IOException;
 import java.util.*;
 
-public class LSCommand implements Command {
+public class LSCommand extends Command {
 
     List<String> ListFiles = new ArrayList<>();
     public List<String> getList(String[] args) {
@@ -27,6 +27,7 @@ public class LSCommand implements Command {
 
     private void commandExecution(String[] args) {
         List<Path> files = new ArrayList<>();
+        ListFiles.clear();
         boolean showHidden = false;
         boolean reverseOrder = false;
 

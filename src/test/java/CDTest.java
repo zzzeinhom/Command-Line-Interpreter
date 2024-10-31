@@ -8,7 +8,6 @@ public class CDTest {
     @Test
     public void validDirectoryNavigation(){
         CDCommand cd = new CDCommand();
-        PWDCommand pwd = new PWDCommand();
         cd.execute(new String[] {"C:\\Users"});
         assertEquals("C:\\Users", CLI.currentDirectory.toString());
     }

@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TouchCommand implements Command {
+public class TouchCommand extends Command {
 
     @Override
     public void execute(String[] args) {

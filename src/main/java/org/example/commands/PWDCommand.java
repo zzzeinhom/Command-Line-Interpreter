@@ -5,18 +5,20 @@ import org.example.CLI;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class PWDCommand implements Command {
-    private Path path = CLI.currentDirectory;
+public class PWDCommand extends Command {
+    private Path path;
 
     @Override
     public void execute(String[] args) {
-        commandExecution(args);
+        commandExecution();
     }
-    private void commandExecution(String[] args) {
-        System.out.println(path.toString());
+    private void commandExecution() {
+        path = CLI.currentDirectory.toAbsolutePath().normalize();
+        System.out.println(path);
     }
 
-    public Path getPath() {
-        return path;
+    public String getPath() {
+        execute(null);
+        return path.toString();
     }
 }

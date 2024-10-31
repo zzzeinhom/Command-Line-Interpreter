@@ -1,185 +1,73 @@
 package org.example;
-import org.example.StringSplitter;
 
+import org.example.commands.*;
 
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class CLI {
-    public static Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+
+    public static Path currentDirectory;
+    private Map<String, Command> commands;
 
     public CLI() {
+        // Initialize the command map with command objects
         currentDirectory = Paths.get(System.getProperty("user.dir"));
-    }
-
-    public static void main(String[] args) {
-        CLI cli = new CLI();
-        cli.start();
+        commands = new HashMap<>();
+        commands.put("pwd", new PWDCommand());
+        commands.put("cd", new CDCommand());
+        commands.put("ls", new LSCommand());
+        commands.put("mkdir", new MkdirCommand());
+        commands.put("rmdir", new RmdirCommand());
+        commands.put("touch", new TouchCommand());
+        commands.put("cat", new CATCommand());
+        commands.put("append", new AppendCommand());
+        commands.put("mv", new MVCommand());
+        commands.put("rm", new RMCommand());
+        //TODO: add more commands
     }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to our CLI system! Type 'help' for a list of commands.");
+        System.out.println("Welcome to the CLI! Type 'exit' to quit.");
 
         while (true) {
-            System.out.print(currentDirectory + "> ");
+            System.out.print("> ");
             String input = scanner.nextLine().trim();
-            String[] parts = StringSplitter.splitString(input);
-            String command = parts[0];
-            String[] args = parts.length > 1 ? Arrays.copyOfRange(parts, 1, parts.length) : new String[0];
 
-            switch (command) {
-                case "exit":
-                    if (exit()) return;
-                    break;
-                case "help":
-                    System.out.println(help());
-                    break;
-                case "pwd":
-                    System.out.println(pwd());
-                    break;
-                case "cd":
-                    changeDirectory(args);
-                    break;
-                case "ls":
-                    listFiles(args);
-                    break;
-                case "mkdir":
-                    createDirectory(args);
-                    break;
-                case "rmdir":
-                    removeDirectory(args);
-                    break;
-                case "touch":
-                    createFile(args);
-                    break;
-                case "mv":
-                    moveFile(args);
-                    break;
-                case "rm":
-                    removeFile(args);
-                    break;
-                case "cat":
-                    cat(args);  // Placeholder for 'cat' command implementation
-                    break;
-                case ">":
-                    redirectOutput(args);  // Placeholder for output redirection implementation
-                    break;
-                case ">>":
-                    appendOutput(args);  // Placeholder for output append implementation
-                    break;
-                case "|":
-                    pipeOutput(args);  // Placeholder for piping implementation
-                    break;
-                default:
-                    System.out.println("Unknown command: " + command);
-                    break;
+
+            // Check for exit command
+            if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting CLI...");
+                break;
             }
-        }
-    }
 
+            // Check for help command
+            if (input.equalsIgnoreCase("help")) {
+                System.out.println(help());
+                continue;
+            }
 
+            // Parse the input
+            String[] parts = StringSplitter.split(input);
+            String commandName = parts[0];
+            String[] args = new String[parts.length - 1];
+            System.arraycopy(parts, 1, args, 0, args.length);
 
-
-    public String pwd() {
-        return currentDirectory.toString();
-    }
-
-    public void changeDirectory(String[] args) {
-        // TODO: Implement this
-    }
-
-    public void listFiles(String[] args) {
-        List<Path> files = new ArrayList<>();
-        boolean showHidden = false;
-        boolean reverseOrder = false;
-
-        for (String arg : args) {
-            if (arg.equals("-a")) {
-                showHidden = true;
-            } else if (arg.equals("-r")) {
-                reverseOrder = true;
+            // Execute the command if it exists
+            Command command = commands.get(commandName);
+            if (command != null) {
+                command.execute(args);
+            } else {
+                System.out.println("Unknown command: " + commandName);
             }
         }
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentDirectory)) {
-            for (Path path : stream) {
-                if (showHidden || !path.getFileName().toString().startsWith(".")) {
-                    files.add(path);
-                }
-            }
-
-            files.sort(Comparator.comparing(Path::getFileName));
-            if (reverseOrder) {
-                Collections.reverse(files);
-            }
-
-            for (Path entry : files) {
-                System.out.print(entry.getFileName() + " ");
-            }
-            System.out.println();
-
-        } catch (Exception e) {
-            System.out.println("ls: failed to list directory contents");
-        }
+        scanner.close();
     }
-
-    public void createDirectory(String[] args) {
-        // TODO: Implement this
-    }
-
-    public void removeDirectory(String[] args) {
-        // TODO: Implement this
-    }
-
-    public void createFile(String[] args) {
-        if (args.length == 0) {
-            System.out.println("touch: missing file name");
-            return;
-        }
-        Path file = currentDirectory.resolve(args[0]);
-        try {
-            Files.createFile(file);
-        } catch (FileAlreadyExistsException e) {
-            System.out.println("touch: file already exists " + args[0]);
-        } catch (Exception e) {
-            System.out.println("touch: cannot create file " + args[0]);
-        }
-    }
-
-    public void moveFile(String[] args) {
-        // TODO: Implement this
-    }
-
-    public void removeFile(String[] args) {
-        if (args.length == 0) {
-            System.out.println("rm: missing file name");
-            return;
-        }
-        Path file = currentDirectory.resolve(args[0]);
-        try {
-            Files.deleteIfExists(file);
-        } catch (Exception e) {
-            System.out.println("rm: failed to delete file " + args[0]);
-        }
-    }
-
-    private void pipeOutput(String[] args) {
-        // TODO: Implement this
-    }
-
-    private void appendOutput(String[] args) {
-        // TODO: Implement this
-    }
-
-    private void redirectOutput(String[] args) {
-        // TODO: Implement this
-    }
-
-    private void cat(String[] args) {
-        // TODO: Implement this
-    }
-
     public String help() {
         return """
             Available commands:
@@ -202,8 +90,8 @@ public class CLI {
             """;
     }
 
-    public boolean exit() {
-        System.out.println("Exiting CLI.");
-        return true;
+    public static void main(String[] args) {
+        CLI cli = new CLI();
+        cli.start();
     }
 }

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class StringSplitter {
 
-    public static String[] splitString(String input) {
+    public static String[] split(String input) {
         List<String> result = new ArrayList<>();
 
         // Regular expression to match words and phrases in quotes

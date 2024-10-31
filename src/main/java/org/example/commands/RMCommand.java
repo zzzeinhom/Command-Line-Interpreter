@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.io.IOException;
 import java.util.Optional;
 
-public class RMCommand implements Command {
+public class RMCommand extends Command {
 
     @Override
     public void execute(String[] args) {
