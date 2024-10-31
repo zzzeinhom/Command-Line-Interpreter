@@ -13,6 +13,7 @@ public class MkdirCommand extends Command {
     public void execute(String[] args) {
         if (args.length < 1) {
             System.out.println("Error: No directory name provided.");
+            return;
         }
 
         try {
@@ -21,10 +22,13 @@ public class MkdirCommand extends Command {
             // Check if directory path points to an existing directory
             if (Files.isDirectory(dirPath)) {
                 System.out.println("Directory already exists: " + dirPath);
+                return;
             }
 
+            // Check if a file with the same name exists
             if (Files.exists(dirPath) && !Files.isDirectory(dirPath)) {
                 System.out.println("Error: A file with the same name already exists.");
+                return;
             }
 
             Files.createDirectories(dirPath);
@@ -39,6 +43,5 @@ public class MkdirCommand extends Command {
         } catch (SecurityException e) {
             System.out.println("Error: Permission denied to create directory.");
         }
-
     }
 }
