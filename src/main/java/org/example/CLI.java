@@ -56,10 +56,19 @@ public class CLI {
             }
 
             else if (input.contains(">")) {
-                OutputRedirectCommand ORC = new OutputRedirectCommand();
+                if(input.contains(">>"))
+                {
+                    AppendCommand AC = new AppendCommand();
 
-                ORC.execute(parts);
+                    AC.execute(parts);
+                }
+                else {
+                    OutputRedirectCommand ORC = new OutputRedirectCommand();
+
+                    ORC.execute(parts);
+                }
             }
+
 
             else if(input.contains("|"))
             {
