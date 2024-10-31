@@ -50,23 +50,33 @@ public class CLI {
             }
 
             // Check for help command
-            if (input.equalsIgnoreCase("help")) {
+            else if (input.equalsIgnoreCase("help")) {
                 System.out.println(help());
                 continue;
             }
 
-            if (input.contains(">")) {
+            else if (input.contains(">")) {
                 OutputRedirectCommand ORC = new OutputRedirectCommand();
 
                 ORC.execute(parts);
             }
 
+            else if(input.contains("|"))
+            {
+                PipCommand PipC = new PipCommand();
+
+                PipC.execute(parts);
+            }
+
             // Execute the command if it exists
-            Command command = commands.get(commandName);
-            if (command != null) {
-                command.execute(args);
-            } else {
-                System.out.println("Unknown command: " + commandName);
+            else
+            {
+                Command command = commands.get(commandName);
+                if (command != null) {
+                    command.execute(args);
+                } else {
+                    System.out.println("Unknown command: " + commandName);
+                }
             }
         }
 

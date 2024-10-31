@@ -39,6 +39,7 @@ public class CATCommand extends Command {
         setFileContent(args);
         return fileContent;
     }
+
     @Override
     public void execute(String[] args) {
         setFileContent(args);

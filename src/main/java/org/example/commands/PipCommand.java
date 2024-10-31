@@ -1,6 +1,8 @@
 package org.example.commands;
 
 import org.example.CLI;
+import org.example.StringSplitter;
+
 import java.io.IOException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -8,32 +10,33 @@ import java.nio.file.*;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
-public class OutputRedirectCommand extends Command {
-
+public class PipCommand extends Command {
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args)
+    {
         if(args.length < 3)
         {
             System.out.println("Error: Arguments should be: <command> > <file>");
             return;
         }
 
-        String[] commandArgs = Arrays.copyOfRange(args,0, args.length - 2);
-        String targetFile = args[args.length - 1];
+        String[] InputCommand = Arrays.copyOfRange(args, 0, args.length-2);
+        String OutputCommand = args[args.length - 1];
 
-        String output = runCommand(commandArgs);
+        String input = runCommand(InputCommand);
+        Command output = getCommand(OutputCommand.split(" "));
 
         try
         {
-            Path path = Paths.get(CLI.currentDirectory.toString(), targetFile).normalize();
             assert output != null;
-            Files.writeString(path, output, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            System.out.println("Output successfully directed to: " + targetFile);
+            assert input != null;
+            String[] inputArgs = new String[1];
+            inputArgs = StringSplitter.split(input);
+            output.execute(inputArgs);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            System.out.println("Error redirecting to file: " + targetFile);
-            return;
+            System.out.println("Error directing to command");
         }
     }
 
@@ -73,7 +76,7 @@ public class OutputRedirectCommand extends Command {
             System.setOut(originalOutput);
         }
 
-        return outputStream.toString(StandardCharsets.UTF_8);
+        return outputStream.toString(StandardCharsets.UTF_8).trim();
     }
 
     private Command getCommand (String[] commandArgs)

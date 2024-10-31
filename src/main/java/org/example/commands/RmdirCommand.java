@@ -1,7 +1,10 @@
 package org.example.commands;
 
+import org.example.CLI;
+
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Arrays;
 
 public class RmdirCommand extends Command
 {
@@ -12,7 +15,8 @@ public class RmdirCommand extends Command
             return;
         }
 
-        Path dirPath = Paths.get(args[0]);
+        String input = String.join(" ", args);
+        Path dirPath = Paths.get(input).toAbsolutePath().normalize();
 
         if (!Files.exists(dirPath)) {
             System.out.println("Error: Directory does not exist - " + dirPath);
@@ -25,7 +29,9 @@ public class RmdirCommand extends Command
         }
 
         try {
+            Path parent = dirPath.getParent();
             deleteDirectory(dirPath);
+            CLI.currentDirectory = parent;
             System.out.println("Directory deleted successfully: " + dirPath);
         } catch (IOException e) {
             System.out.println("Error deleting directory: " + e.getMessage());
