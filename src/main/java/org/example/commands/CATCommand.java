@@ -13,6 +13,7 @@ public class CATCommand extends Command {
     List<String> fileContent = new ArrayList<>();
 
     public void setFileContent(String[] args) {
+        fileContent.clear();
         try {
             for(int i = 0; i < args.length; ++i){
                 Path path = Paths.get(args[i]);
@@ -20,18 +21,16 @@ public class CATCommand extends Command {
                     path = CLI.currentDirectory.resolve(path);
                 }
                 File file = path.toFile();
-                if (Files.isDirectory(path)) {
-                    throw new Exception("Not a valid file path");
-                }
-                Scanner reader = new Scanner(file);
+                Scanner reader = new Scanner(file.getName());
                 while (reader.hasNextLine()) {
                     String data = reader.nextLine();
                     fileContent.add(data);
                 }
                 reader.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (Exception e){
+            System.out.println("There is no such directory");
         }
     }
     

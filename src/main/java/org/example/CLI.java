@@ -26,7 +26,6 @@ public class CLI {
         commands.put("append", new AppendCommand());
         commands.put("mv", new MVCommand());
         commands.put("rm", new RMCommand());
-        //TODO: add more commands
     }
 
     public void start() {
