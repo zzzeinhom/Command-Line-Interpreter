@@ -12,13 +12,22 @@ public class PWDCommand extends Command {
     public void execute(String[] args) {
         commandExecution();
     }
+
     private void commandExecution() {
-        path = CLI.currentDirectory.toAbsolutePath().normalize();
-        System.out.println(path);
+        try {
+            if (CLI.currentDirectory == null) {
+                throw new IllegalStateException("Error: Current directory is not set.");
+            }
+
+            path = CLI.currentDirectory.toAbsolutePath().normalize();
+            System.out.println(path);
+        } catch (Exception e) {
+            System.out.println("An error occurred while executing the PWD command: " + e.getMessage());
+        }
     }
 
     public String getPath() {
         execute(null);
-        return path.toString();
+        return path != null ? path.toString() : "Error: Path could not be retrieved.";
     }
 }

@@ -19,9 +19,8 @@ public class LSCommand extends Command {
     public void execute(String[] args) {
         commandExecution(args);
         for (String file : ListFiles) {
-            System.out.print(file + " ");
+            System.out.println(file);
         }
-        System.out.println();
 
     }
 

@@ -1,8 +1,9 @@
 package org.example.commands;
+
 import org.example.CLI;
 
 import java.io.File;
-import java.nio.file.Files;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,27 +15,59 @@ public class CATCommand extends Command {
 
     public void setFileContent(String[] args) {
         fileContent.clear();
-        try {
-            for(int i = 0; i < args.length; ++i){
-                Path path = Paths.get(args[i]);
-                if(!path.isAbsolute()){
-                    path = CLI.currentDirectory.resolve(path);
+        for (String arg : args) {
+            try {
+                Path path = Paths.get(arg);
+
+                if (!path.isAbsolute()) {
+                    path = CLI.currentDirectory.resolve(path).normalize();
                 }
+
                 File file = path.toFile();
-                Scanner reader = new Scanner(file.getName());
-                while (reader.hasNextLine()) {
-                    String data = reader.nextLine();
-                    fileContent.add(data);
+
+                // Process directories by reading all files inside recursively
+                if (file.isDirectory()) {
+                    readDirectory(file);
+                } else {
+                    readFile(file);
                 }
-                reader.close();
+
+            } catch (IOException e) {
+                System.out.println("I/O Error while reading file '" + arg + "': " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error while processing file '" + arg + "': " + e.getMessage());
             }
         }
-        catch (Exception e){
-            System.out.println("There is no such directory");
+    }
+
+    private void readDirectory(File directory) throws IOException {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    readDirectory(file); // Recursively read subdirectories
+                } else {
+                    readFile(file);
+                }
+            }
         }
     }
-    
-    public List<String> getFileContent(String[] args){
+
+    private void readFile(File file) throws IOException {
+        if (!file.canRead()) {
+            System.out.println("Error: File '" + file.getPath() + "' is not readable.");
+            return;
+        }
+
+        try (Scanner reader = new Scanner(file)) {
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+                fileContent.add(data);
+            }
+        }
+    }
+
+    public List<String> getFileContent(String[] args) {
         setFileContent(args);
         return fileContent;
     }
@@ -42,9 +75,8 @@ public class CATCommand extends Command {
     @Override
     public void execute(String[] args) {
         setFileContent(args);
-        for (String line: fileContent) {
+        for (String line : fileContent) {
             System.out.println(line);
         }
     }
-
 }

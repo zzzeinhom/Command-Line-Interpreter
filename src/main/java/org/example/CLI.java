@@ -35,6 +35,9 @@ public class CLI {
         while (true) {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                continue;
+            }
 
             // Parse the input
             String[] parts = StringSplitter.split(input);
